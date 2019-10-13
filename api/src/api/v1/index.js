@@ -1,5 +1,5 @@
 import Router from 'express';
-import { user } from './controllers';
+import { user, iss } from './controllers';
 import {
   error,
   format,
@@ -15,6 +15,7 @@ export default () => {
 
   router.post('/signup', user.signUp);
   router.post('/login', user.logIn);
+  router.get('/iss', iss.getIssDataFromDB);
 
   return router;
 };
