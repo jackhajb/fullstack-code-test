@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:api": "cd api && npm start",
+    "start:client": "cd client && npm start",
     "setup": "cd api && npm i && cd ..",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

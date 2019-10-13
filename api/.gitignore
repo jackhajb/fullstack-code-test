@@ -62,5 +62,6 @@ typings/
 
 .DS_Store
 dist/
+package-lock
 
 public/style.css
