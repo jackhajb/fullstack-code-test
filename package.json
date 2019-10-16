@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/Doorkee/fullstack-code-test/issues"
   },
-  "homepage": "https://github.com/Doorkee/fullstack-code-test#readme"
+  "homepage": "https://github.com/Doorkee/fullstack-code-test#readme",
+  "devDependencies": {
+    "sass": "^1.23.0"
+  },
+  "dependencies": {
+    "react-map-gl": "^5.0.12"
+  }
 }

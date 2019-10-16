@@ -1,0 +1,41 @@
+.mapboxgl-canvas-container {
+ width:100%;
+ height: calc(100% - #{$header-height});
+}
+
+.mapboxgl-canvas {
+  width:100% !important;
+  height: 100% !important;
+  position: inherit !important;
+ }
+
+.mapboxgl-map {
+  height:calc(100% - #{$mapbox-label-height});
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mapboxgl-canvas-container {
+  position: relative;
+  height: calc(100% - 16px);
+  width: 90%;
+}
+
+.mapbox-label {
+  height: $mapbox-label-height;
+  align-self: center;
+}
+
+.mapbox-full-container {
+  position: fixed;
+  top: $header-height;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height:  calc(100% - #{$header-height});
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 0px 0px 20px 0px;
+}
