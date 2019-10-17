@@ -13,8 +13,8 @@ const Map = () => {
   const [viewport, setViewport] = useState({
     latitude,
     longitude,
-    height: '100vh',
-    width: '100vw',
+    height: '100%',
+    width: 'calc(100% - 200px)',
     zoom: 1.5,
   });
 
@@ -36,12 +36,12 @@ const Map = () => {
     fetch(`${proxyurl}http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&n=1`)
       .then(res => res.json())
       .then((res) => {
-        if (res.message !== 'success') throw Error(res.reason);
-        const date = res.response.length === 0 ? 'The Iss will not pass this point' : new Date(res.response[0].risetime * 1000).toString();
+        if (res.message !== 'success' && res.reason !== "Longitue must be number between -180.0 and 180.0") throw Error(res.reason);
+        const issPassDetails = (res.reason === "Longitue must be number between -180.0 and 180.0" || res.response.length === 0) ? 'The Iss will not pass this point' : new Date(res.response[0].risetime * 1000).toString();
         setIssPassPoint({
-          latitude: res.request.latitude,
-          longitude: res.request.longitude,
-          date,
+          latitude: lat,
+          longitude: lon,
+          issPassDetails,
         });
       })
       .catch(error => console.error(error));
@@ -52,27 +52,25 @@ const Map = () => {
     setInterval(fetchIssCurrentLocation, 5000);
   }, []);
 
-  useEffect(() => {
-    setViewport({
-      latitude,
-      longitude,
-      zoom: 1.5,
-    });
-  }, [latitude, longitude]);
-
   /*********** Render ************/
   return (
     <div className='mapbox-full-container'>
-      <div className='mapbox-label'>{`Longitude: ${longitude} Latitude: ${latitude}`}</div>
+      <div className="mapbox-label-container">
+        <div className='mapbox-label-strong'>{`Iss Location:`}</div>
+        <div className='mapbox-label'>{`Longitude: ${longitude.toFixed(2)}`}</div>
+        <div className='mapbox-label'>{`Latitude: ${latitude.toFixed(2)}`}</div>
+        <div className='mapbox-label-strong'>{`Viewport Location:`}</div>
+        <div className='mapbox-label'>{`Longitude: ${viewport.longitude.toFixed(2)}`}</div>
+        <div className='mapbox-label'>{`Latitude: ${viewport.latitude.toFixed(2)}`}</div>
+      </div>
       <ReactMapGL
-        width='100%'
-        height='100%'
         {...viewport}
         mapboxApiAccessToken={accessToken}
         mapStyle='mapbox://styles/jackhajb/ck1tet5gb6ect1cow9o3pcxqg'
         onClick={({ lngLat }) => {
           fetchPassTimes(lngLat);
         }}
+        onViewportChange={newViewport => setViewport({ ...newViewport, width: '100%', height: '100%' })}
       >
         <Marker
           key='iss'
@@ -87,11 +85,11 @@ const Map = () => {
             longitude={issPassPoint.longitude}
             onClose={() => setIssPassPoint(null)}
           >
-            {issPassPoint.date}
+            {issPassPoint.issPassDetails}
           </Popup>
         )}
       </ReactMapGL>
-    </div>
+    </div >
   );
 };
 export default Map;
