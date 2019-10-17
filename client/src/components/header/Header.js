@@ -15,6 +15,11 @@ function Header() {
     setBurgerNavVisible(!burgerNavVisible);
   };
 
+  /********** Uncontrolled Event Listener  *******/
+  window.addEventListener("resize", () => {
+    if (window.innerWidth <= 875) setBurgerNavVisible(false);
+  });
+
   /******** Render *************/
   return (
     <div className='header-main'>
