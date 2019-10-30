@@ -3,14 +3,26 @@ import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import satellite from './satellite-solid-20.png';
 
 /*******Normally in env file *************/
-const accessToken = 'pk.eyJ1IjoiamFja2hhamIiLCJhIjoiY2sxcGlsa2ZxMGFnbTNpbXUzOXJ5ZzRzcyJ9.pl6KQ5ycfAFNrGUJ90CzYQ';
+const accessToken: string = 'pk.eyJ1IjoiamFja2hhamIiLCJhIjoiY2sxcGlsa2ZxMGFnbTNpbXUzOXJ5ZzRzcyJ9.pl6KQ5ycfAFNrGUJ90CzYQ';
 
-const Map = () => {
+const Map: React.FC = () => {
   /*********** Instantiate State ************/
-  const [coordinates, setCoordinates] = useState([0, 0]);
-  const [longitude, latitude] = coordinates;
-  const [issPassPoint, setIssPassPoint] = useState(null);
-  const [viewport, setViewport] = useState({
+  const [coordinates, setCoordinates] = useState<[number, number]>([0, 0]);
+  const [longitude, latitude]: [number, number] = coordinates;
+  interface IssPassPointInterface {
+    latitude: string;
+    longitude: string;
+    issPassDetails: string;
+  }
+  const [issPassPoint, setIssPassPoint] = useState<IssPassPointInterface | null>(null);
+  interface ViewportInterface {
+    latitude: number;
+    longitude: number;
+    height: string;
+    width: string;
+    zoom: number;
+  }
+  const [viewport, setViewport] = useState<ViewportInterface>({
     latitude,
     longitude,
     height: '100%',
@@ -19,7 +31,7 @@ const Map = () => {
   });
 
   /*********** Fetch Data ************/
-  const fetchIssCurrentLocation = () => {
+  const fetchIssCurrentLocation = (): void => {
     fetch('http://localhost:8080/api/v1/iss')
       .then(res => res.json())
       .then((res) => {
@@ -31,13 +43,13 @@ const Map = () => {
         console.error(error);
       });
   };
-  const fetchPassTimes = ([lon, lat]) => {
-    const proxyurl = 'https://cors-anywhere.herokuapp.com/';
+  const fetchPassTimes = ([lon, lat]: [string, string]): void => {
+    const proxyurl: string = 'https://cors-anywhere.herokuapp.com/';
     fetch(`${proxyurl}http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&n=1`)
       .then(res => res.json())
       .then((res) => {
         if (res.message !== 'success' && res.reason !== "Longitue must be number between -180.0 and 180.0") throw Error(res.reason);
-        const issPassDetails = (res.reason === "Longitue must be number between -180.0 and 180.0" || res.response.length === 0) ? 'The Iss will not pass this point' : new Date(res.response[0].risetime * 1000).toString();
+        const issPassDetails: string = (res.reason === "Longitue must be number between -180.0 and 180.0" || res.response.length === 0) ? 'The Iss will not pass this point' : new Date(res.response[0].risetime * 1000).toString();
         setIssPassPoint({
           latitude: lat,
           longitude: lon,
@@ -48,7 +60,7 @@ const Map = () => {
   };
 
   /*********** Component Lifecycle ************/
-  useEffect(() => {
+  useEffect((): void => {
     setInterval(fetchIssCurrentLocation, 5000);
   }, []);
 

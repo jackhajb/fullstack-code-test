@@ -5,7 +5,7 @@ export const fetchIssLocation = async () => {
   try {
     return await axios.get('http://api.open-notify.org/iss-now.json');
   } catch (error) {
-    console.error(error);
+    throw new Error(error);
   }
 };
 

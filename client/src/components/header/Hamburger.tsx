@@ -1,6 +1,10 @@
 import React from 'react';
 
-function Hamburger({ toggleBurgerNav }) {
+interface HamburgerProps {
+  toggleBurgerNav(): void;
+}
+
+const Hamburger: React.FC<HamburgerProps> = ({ toggleBurgerNav }) => {
   return (
     <button className='header-burger' onClick={toggleBurgerNav} type='button'>
       <div className='header-burger-line' />

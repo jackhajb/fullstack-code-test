@@ -6,12 +6,12 @@ import Hamburger from './Hamburger';
 /******** Import Logo *************/
 import logo from '../../logo.svg';
 
-function Header() {
+const Header: React.FC = () => {
   /******** Instantiate State *************/
-  const [burgerNavVisible, setBurgerNavVisible] = useState(false);
+  const [burgerNavVisible, setBurgerNavVisible] = useState<boolean>(false);
 
   /******** Helper Functions *************/
-  const toggleBurgerNav = () => {
+  const toggleBurgerNav = (): void => {
     setBurgerNavVisible(!burgerNavVisible);
   };
 

@@ -5,9 +5,9 @@ import './_scss/main.scss';
 
 /******** Import Components *************/
 import Header from './components/header/Header';
-import Map from './components/Map'
+import Map from './components/Map';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div className='app-container'>
       <Header />
