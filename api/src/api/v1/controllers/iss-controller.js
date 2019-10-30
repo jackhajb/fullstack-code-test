@@ -1,11 +1,12 @@
 import { iss } from '../services';
 
 export const fetchAndWriteIssDataToDB = async () => {
+  console.log(`Fetching iss data ${new Date()}`);
   const response = await iss.fetchIssLocation();
-  let { timestamp, iss_position: { latitude, longitude } } = response.data;
-  timestamp = new Date(timestamp * 1000).toISOString();
+  const { timestamp, iss_position: { latitude, longitude } } = response.data;
+  const convertedTimestamp = new Date(timestamp * 1000).toISOString();
   iss.writeIssLocation({
-    timestamp,
+    timestamp: convertedTimestamp,
     latitude,
     longitude,
   });
